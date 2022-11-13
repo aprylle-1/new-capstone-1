@@ -1,4 +1,6 @@
 # Pokemon Team Builder
+##
+App is deployed [HERE](https://capstone-pokemon-team-builder.herokuapp.com/login)
 
 ## API and Tech Stack
 This app used the [Pokemon API](https://pokeapi.co/) to get its data. The app will be getting the following data from the API:
