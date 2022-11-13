@@ -26,12 +26,12 @@ bcrypt = Bcrypt()
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER", None) != None:
         return redirect("/")
 
     form = UserForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() == True:
 
         username = form.username.data
         password = form.password.data
@@ -51,19 +51,19 @@ def signup():
 @app.route("/login", methods=["POST", "GET"])
 def login():
     
-    if (session.get("CURR_USER")):
+    if session.get("CURR_USER", None) != None:
         return redirect("/")
 
     form = UserForm()
 
-    if form.validate_on_submit():
+    if form.validate_on_submit() == True:
         
         username = form.username.data
         password = form.password.data
 
         user = User.login(username=username, password=password)
 
-        if(user):
+        if user != None:
             session["CURR_USER"] = user.id    
             flash(f"Welcome back {user.username}!", "success")       
             return redirect("/teams")
@@ -82,7 +82,7 @@ def logout():
 @app.route("/")
 def show_all_pokemon_version():
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER", None) != None:
         resp = (requests.get(f"{API_URL}/version-group/")).json()
         version_groups = resp["results"]
 
@@ -97,7 +97,7 @@ def show_all_pokemon_version():
 @app.route("/pokemons")
 def show_all_pokemon_per_version():
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER") != None:
         version_id = int(request.args["version_group"])
 
         version_info= (requests.get(f"{API_URL}/version-group/{version_id}")).json() #get information from api based on version group
@@ -121,7 +121,7 @@ def show_all_pokemon_per_version():
 @app.route("/pokemon/edit/<team_id>/<pokemon_id>", methods=["GET"])
 def get_edit_pokemon_form(team_id, pokemon_id):
     
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER", None) != None:
         pokemon = Pokemon.query.get(pokemon_id)
         team = Team.query.get(team_id)
         version_id = team.version_id
@@ -159,7 +159,7 @@ def get_edit_pokemon_form(team_id, pokemon_id):
 @app.route("/pokemon/edit/<team_id>/<pokemon_id>", methods=["POST"])
 def edit_pokemon(team_id, pokemon_id):
     
-    if session.get("CURR_USER"):    
+    if session.get("CURR_USER", None) != None:    
         id = request.form.get("pokemon_id")
 
         pokemon = Pokemon.query.get(id)
@@ -188,7 +188,7 @@ def edit_pokemon(team_id, pokemon_id):
 @app.route("/teams")
 def show_all_teams():
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER") != None:
         user_id = session["CURR_USER"] 
         teams = Team.query.filter(Team.user_id == user_id).all()
         info = []
@@ -203,7 +203,7 @@ def show_all_teams():
 @app.route("/teams/<team_id>")
 def show_team_details(team_id):
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER", None) != None:
         team = Team.query.get(team_id)
         pokemons = team.get_all_pokemons()
         pokemons_info = []
@@ -219,7 +219,7 @@ def show_team_details(team_id):
 @app.route("/teams/create", methods=["POST", "GET"])
 def create_team():
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER", None) != None:
 
         version_id = request.form.get("pokemon_version")
         user_id = session["CURR_USER"]
@@ -252,7 +252,7 @@ def create_team():
 @app.route("/teams/delete/<team_id>", methods=["POST"])
 def delete_team(team_id):
 
-    if session.get("CURR_USER"):
+    if session.get("CURR_USER", None) != None:
         team = Team.query.get(team_id)
         pokemons = team.get_all_pokemons()
 
