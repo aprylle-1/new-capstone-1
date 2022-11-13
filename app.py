@@ -1,3 +1,4 @@
+import os
 from crypt import methods
 from curses import flash
 from ensurepip import version
@@ -15,7 +16,7 @@ app = Flask(__name__)
 API_URL = "https://pokeapi.co/api/v2"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///pokemon_teams"
-app.config["SECRET_KEY"] = "nasdjfjksdhfjksdjkflsd"
+app.config["SECRET_KEY"] =os.environ.get('SECRET_KEY', "testsecretkey")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 #Flow user is directed to a page where they can choose a pokemon version
 #That in turn will give them a list of pokemon using the pokedex
