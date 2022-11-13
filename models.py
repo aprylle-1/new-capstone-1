@@ -39,7 +39,7 @@ class User(db.Model):
 
         user = User.query.filter(User.username==username).first()
 
-        if user:
+        if user != None:
             is_auth = bcrypt.check_password_hash(user.password, password)
             if is_auth:
                 return user
