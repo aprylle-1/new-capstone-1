@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Teams</h1>
+    <p>Click on Team # for more information</p>
+    <table class="table table-striped table-light">
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col">1st Pokemon</th>
+            <th scope="col">2nd Pokemon</th>
+            <th scope="col">3rd Pokemon</th>
+            <th scope="col">4th Pokemon</th>
+            <th scope="col">5th Pokemon</th>
+            <th scope="col">6th Pokemon</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for (team, pokemons) in info %}
+                <tr>
+                    <th scope="row"><a href="/teams/{{team.id}}">{{team.id}}</a></th>
+                    {% for pokemon in pokemons %}
+                    <td>{{pokemon.pokemon_name.capitalize()}}</td>
+                    {% endfor %}
+                    <td><form action="/teams/delete/{{team.id}}" method="POST"><button class="btn btn-danger">Delete</button></form></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/" class="btn btn-primary">Create Team</a>
+{% endblock %}

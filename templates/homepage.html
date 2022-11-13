@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{%block title%}Homepage{% endblock %}
+
+{%block content%}
+<style>
+    .form-container{
+        display: flex;
+        width: 40%;
+        margin: auto;
+        height: 50%;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        color: black;
+        margin-top: 50px;
+    }
+    .form-container form{
+        height: 50vh;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .container-fluid{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form-control{
+        width: 100% !important;
+    }
+    .form-container button{
+        margin-top: 10px !important;
+    }
+</style>
+    <div class="form-container">
+        <form action="/pokemons" method="GET">
+            <h1>Start Building</h1>
+            <label for="">Select Pokemon version you'd like to build a team for</label>
+            <select name="version_group" id="" class="form-control" style="width: 50%">
+                {% for (version_group, id) in version_groups %}
+                <option value="{{id}}">{{version_group}}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-primary">Select Game</button>
+        </form>
+    </div>
+{% endblock %}

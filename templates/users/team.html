@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    #team-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+    .card{
+        width: 15rem;
+        text-align: center;
+    }
+</style>
+<div style="display: none;" class="info">
+    <div id="team-id">{{team_id}}</div>
+    {% for (pokemon, moves) in pokemons_info %}
+    <div class="card">
+        <div class="card-title">
+            <span class="pokemon" data-id="{{pokemon.pokemon_id}}" data-pokemon_id = {{pokemon.id}}>{{pokemon.pokemon_name}}</span>
+        </div>
+        <div class="card-body">
+            <ul class="moves">
+                {% for move in moves %}
+                <li style="display: none;"data-id="{{move}}">{{move}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endfor %}
+</div>
+<h1>Team {{team_id}}</h1>
+<div id="team-container">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/helper.js"></script>
+<script src="/static/team.js"></script>
+{% endblock %}

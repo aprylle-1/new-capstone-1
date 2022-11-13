@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .form-control{
+        width: 50% !important;
+        margin-top: 5px;
+        padding: 0px 0px 0px 0px !important;
+        margin-right: 5px !important;
+    }
+    #move-card{
+        color: black;
+    }
+    .select-move{
+        display: flex;
+    }
+    .select-move select{
+        width: 30% !important;
+    }
+</style>
+<div class="row">
+    <span><h3>Create Team for Pokemon {{version[2]}}</h3></span>
+</div>
+<div style="display: none" class="row">
+    <h2 id="version">{{version[0]}}</h2>
+</div>
+<div class="row">
+    <div class="col-5">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <h4>Select a Pokemon</h4>
+                    <p>Select a Pokemon to get its Move List</p>
+                </div>
+                <div>
+                    <select name="" id="display-pokemon" class="form-control" style="width:100% !important">
+                        <option disabled selected hidden value="">Select Pokemon...</option>
+                        {% for (name,id) in pokemons %}
+                        <option value="{{id}}">{{name.capitalize()}}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="card" class="card" style="width:100% !important"></div>
+                </div>
+                <!-- <div class="vertical-menu">
+                    <ul id="pokemon-list" class="list-group">
+                        {% for (name, id) in pokemons %}
+                        <li data-id="{{id}}"class="list-group-item">{{name.capitalize()}}</li>
+                        {% endfor %}
+                    </ul>
+                </div> -->
+            </div>
+            <div class="col">
+                <h4>Move Information</h4>
+                <p>Select Move from Pokemon's Move List</p>
+                <div class="card" id="move-card"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div><h4>Create Team:</h4></div>
+            <form action="/teams/create" method="POST">
+                <p>Select a Pokemon from the dropdown and available moves will show on the move dropdowns</p>
+                <input type="hidden" name="pokemon_version" value="{{version[1]}}">
+                <div id="pokemon_1">
+                    <label for="pokemon_select_1">Pokemon 1</label>
+                    <div class="select-move">
+                        <select class="form-control"name="pokemon_1" id="pokemon_select_1" required>
+                            <option value="" disabled selected hidden>Select Pokemon</option>
+                            {% for (name, id) in pokemons %}
+                            <option data-id={{id}} value="{{name}} {{id}}">{{name.capitalize()}}</option>
+                            {% endfor %}
+                        </select>
+                        <select class="form-control" name="pokemon_1_move_1" id="pokemon_1_move_1" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select class="form-control" name="pokemon_1_move_2" id="pokemon_1_move_2" required>
+                            <option class="form-control" value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select class="form-control" name="pokemon_1_move_3" id="pokemon_1_move_3" required>
+                            <option class="form-control" value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select class="form-control" name="pokemon_1_move_4" id="pokemon_1_move_4" required>
+                            <option class="form-control" value="" disabled selected hidden>Select Move</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="pokemon_2">
+                    <label for="pokemon_select_2">Pokemon 2</label>
+                    <div class="select-move">
+                        <select class="form-control" name="pokemon_2" id="pokemon_select_2" required>
+                            <option value="" disabled selected hidden>Select Pokemon...</option>
+                            {% for (name, id) in pokemons %}
+                            <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        <select class="form-control" name="pokemon_2_move_1" id="pokemon_2_move_1" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_2_move_2" id="pokemon_2_move_2" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_2_move_3" id="pokemon_2_move_3" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_2_move_4" id="pokemon_2_move_4" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div id="pokemon_3">
+                    <label for="pokemon_select_3">Pokemon 3</label>
+                    <div class="select-move">
+                        <select class="form-control" name="pokemon_3" id="pokemon_select_3" required>
+                            <option value="" disabled selected hidden>Please Choose...</option>
+                            {% for (name, id) in pokemons %}
+                            <option value="{{name }} {{id}}">{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="pokemon_3_move_1" id="pokemon_3_move_1" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_3_move_2" id="pokemon_3_move_2" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_3_move_3" id="pokemon_3_move_3" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_3_move_4" id="pokemon_3_move_4" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="pokemon_4">
+                    <label for="pokemon_select_4">Pokemon 4</label>
+                    <div class="select-move">
+                        <select class="form-control" name="pokemon_4" id="pokemon_select_4" required>
+                            <option value="" disabled selected hidden>Select Pokemon...</option>
+                            {% for (name, id) in pokemons %}
+                            <option data-id ={{id}} value="{{name}} {{id}}">{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="pokemon_4_move_1" id="pokemon_4_move_1" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_4_move_2" id="pokemon_4_move_2" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_4_move_3" id="pokemon_4_move_3" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_4_move_4" id="pokemon_4_move_4" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="pokemon_5">
+                    <label for="pokemon_select_5">Pokemon 5</label>
+                    <div class="select-move">
+                        <select class="form-control" name="pokemon_5" id="pokemon_select_5" required>
+                            <option value="" disabled selected hidden>Select Pokemon...</option>
+                            {% for (name, id) in pokemons %}
+                            <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="pokemon_5_move_1" id="pokemon_5_move_1" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_5_move_2" id="pokemon_5_move_2" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_5_move_3" id="pokemon_5_move_3" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_5_move_4" id="pokemon_5_move_4" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="pokemon_6">
+                    <label for="pokemon_select_6">Pokemon 6</label>
+                    <div class="select-move">
+                        <select class="form-control" name="pokemon_6" id="pokemon_select_6" class="form-control">
+                            <option value="" disabled selected hidden>Select Pokemon...</option>
+                            {% for (name, id) in pokemons %}
+                            <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="pokemon_6_move_1" id="pokemon_6_move_1" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_6_move_2" id="pokemon_6_move_2" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_6_move_3" id="pokemon_6_move_3" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                        <select name="pokemon_6_move_4" id="pokemon_6_move_4" class="form-control" required>
+                            <option value="" disabled selected hidden>Select Move</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-top: 5px;">
+                    <input type="Submit" class="btn btn-success" value="Create Team">
+                    <span><a href="/" class="btn btn-primary">Select a Different Version</a></span>
+                </div>
+            </form>
+    </div>
+</div>
+<div style="display: none;" id="version">{{version_name}}</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/helper.js"></script>
+<script src="/static/app.js"></script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    #pokemon-details{
+        margin: auto;
+        width: 90%;
+        height: 32vh;
+    }
+    .card{
+        height: 32vh;
+    }
+    .move-info{
+        background-color: white;
+        color: black;
+    }
+</style>
+<h1>Edit Pokemon</h1>
+<div class="row" style="width:50% margin-auto">
+    <div class="col-2">
+        <form method="POST">
+            <input type="hidden" name="pokemon_id" value="{{pokemon.id}}">
+            <input type="hidden" name="pokemon_version" value="{{version[0]}}">
+            <select name="pokemon" id="select-pokemon" class="form-control">
+                <option selected hidden value="{{ pokemon.pokemon_name }} {{ pokemon.pokemon_id }}">{{ pokemon.pokemon_name.capitalize() }}</option>
+                {% for (name, id) in pokemons %}
+                <option value="{{name}} {{id}}">{{name.capitalize()}}</option>
+                {% endfor %}
+            </select>
+            {% for i in range(moves|length) %}
+            <span><b>Move {{i + 1}}</b></span>
+            <select id="move{{ i + 1 }}_id" name="move{{ i + 1 }}_id" required class="form-control">
+                <option value="{{ moves[i] }}">{{move_names[i]}}</option>
+                {% for move in final_moves %}
+                <option value="{{ move[1] }}">{{ move[0] }}</option>
+                {% endfor %}
+            </select>
+            {% endfor %}
+            <button style="margin-top:10px;" class="btn btn-info">Edit</button>
+            <a style="margin-top:10px;" href="/teams/{{team_id}}" class="btn btn-primary">Go Back</a>
+        </form>
+    </div>
+    <div class="col-2">
+        <div style="display: none ;" id="version-name">{{version[1]}}</div>
+        <div style="display: none ;" id="version-id">{{version[0]}}</div>
+        <div id="pokemon-details"></div>
+    </div>
+    <div class="col">
+        <div class="move-info" id="move-info-1"></div>
+    </div>
+    <div class="col">
+        <div class="move-info" id="move-info-2"></div>
+    </div>
+    <div class="col">
+        <div class="move-info" id="move-info-3"></div>
+    </div>
+    <div class="col">
+        <div class="move-info" id="move-info-4"></div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/helper.js"></script>
+<script src="/static/pokemon.js"></script>
+{% endblock %}
