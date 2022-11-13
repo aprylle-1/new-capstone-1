@@ -8,7 +8,6 @@ from flask_debugtoolbar import DebugToolbarExtension
 from forms import UserForm
 from models import User, connect_db, db, Pokemon, Team
 from flask_bcrypt import Bcrypt
-from collections.abc import Container
 
 import requests
 
